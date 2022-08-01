@@ -1,0 +1,124 @@
+#!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Created on Sat Jul 30 10:04:02 2022
+
+@author: monserratlopez
+"""
+
+import numpy as np  
+#en data set se gaurdan todos los conjuntos de datos
+from sklearn import datasets, linear_model
+import matplotlib.pyplot as plt
+
+#Preparar el data
+boston = datasets.load_boston()
+print (boston)
+print()   
+
+#Entendimiento de la data#
+
+#Verificando la informacion contenida en la data
+print("Informacion en el data set:") #Informacion contenida en la dat
+print(boston.keys())
+print()
+
+#Verifico las características del data set
+
+print("Características del data set")
+print(boston.DESCR)
+
+#Verifico la cantidad de datos que hay en los dataset
+print("Cantidad de datos:")
+print(boston.data.shape)
+print()
+
+#Verifico la informacion de las columnas
+
+print("Nombres columnas:")
+print(boston.feature_names)
+#Solo vamos a usar RM, numero de habitaciones
+
+#PREPARAR LOS DATOS PARA LA REGRESION LINEAL SIMPLE
+#Seleccionamos solamente la columna 5 del data set
+
+X = boston.data[:,np.newaxis,5]
+y = boston.target
+
+#Graficando los datos correspondientes
+plt.scatter(X,y)
+plt.xlabel('Numero de habitaciones')
+plt.ylabel('Valor medio')
+plt.show()
+
+
+
+#Implementacion d eregresion lineal simple
+
+from sklearn.model_selection import train_test_split
+
+X_train, X_test, y_train, y_test = train_test_split(X,y,test_size = 0.2)
+
+#Definir el modelo a utilizar 
+lr = linear_model.LinearRegression()
+
+#Entrenar el modelo
+
+lr.fit(X_train,y_train)
+#Realizo un apredicción
+Y_pred = lr.predict(X_test)
+
+#Graficamos los datos junto con el modelo
+
+plt.scatter(X_test,y_test)
+plt.plot(X_test,Y_pred, color = 'red', linewidth = 3)
+plt.title('Regresion lineal limple')
+plt.xlabel('Numero de habitaciones')
+plt.ylabel('Valor medio')
+plt.show()
+
+#Caculando pendiente e interseccion
+
+print()
+print("Datos del modelo regression lineal simple")
+print()
+print("Valor de la pendiente o coeficiente ´a´: ")
+print(lr.coef_)
+print("Valor de la interseccion o coef b:")
+print(lr.intercept_)
+
+#Calulando presicion del algoritmo
+print()
+print("Presicion del modelo:")
+print(lr.score(X_train, y_train))#Devuelve el resultado de la estdistica R^2
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
